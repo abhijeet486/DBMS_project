@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+{% load static%}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/customer.css' %}" >
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body>
+  <div class="sidebar">
+    <div class="logo-details">
+      <i class='bx bxl-c-plus-plus'></i>
+      <span class="logo_name">Ola</span>
+    </div>
+      <ul class="nav-links">
+        <li>
+          <a href="#" class="active">
+            <i class='bx bx-grid-alt' ></i>
+            <span class="links_name">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class='bx bx-box' ></i>
+            <span class="links_name">Previous Trips</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class='bx bx-cog' ></i>
+            <span class="links_name">Edit Details</span>
+          </a>
+        </li>
+        <li class="log_out">
+          <a href="#">
+            <i class='bx bx-log-out'></i>
+            <span class="links_name">Log out</span>
+          </a>
+        </li>
+      </ul>
+  </div>
+  <section class="home-section">
+    <nav>
+      <div class="sidebar-button">
+        <i class='bx bx-menu sidebarBtn'></i>
+        <span class="dashboard">Dashboard</span>
+      </div>
+      <div class="profile-details">
+        <!--<img src="images/profile.jpg" alt="">-->
+        <span class="admin_name">Prem Shahi</span>
+        <i class='bx bx-chevron-down' ></i>
+      </div>
+    </nav>
+
+    <div class="home-content">
+      <div class="overview-boxes">
+        <div class="box">
+          <button type="button" id ="mini" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+            <h1>MINI</h1>
+        </button>
+        <script type="text/javascript">
+            b = -1;
+            document.getElementById("mini").onclick = function () {
+                location.href = "booking.html";
+                b=0;
+            };
+        </script>
+        <img src="https://static.vecteezy.com/system/resources/thumbnails/000/643/002/small/illust58-215.jpg" width="50" height="50">
+        </div>
+        <div class="box">
+          <div class="right-side">
+            <div class="box-topic"><button type="button" id ="sedan" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                <h1>SEDAN</h1>
+             </button></div>
+             <script type="text/javascript">
+                b = -1;
+                document.getElementById("sedan").onclick = function () {
+                    location.href = "booking.html";
+                    b=1;
+                };
+            </script>
+          </div>
+          <img src="https://us.123rf.com/450wm/alextanya123rf/alextanya123rf1905/alextanya123rf190500017/127034419-car-icon-isolated-on-white-background-side-view-vector-design-element-pictogram-and-illustration-bla.jpg?ver=6" width="100" height="50">
+        </div>
+        <div class="box">
+          <div class="right-side">
+            <div class="box-topic"><button type="button" id ="suv" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                <h1>SUV</h1>
+             </button></div>
+             <script type="text/javascript">
+                b = -1;
+                document.getElementById("suv").onclick = function () {
+                    location.href = "booking.html";
+                    b=2;
+                };
+            </script>
+          </div>
+          <img src="https://static.vecteezy.com/system/resources/thumbnails/002/655/978/small/suv-car-side-view-silhouette-icon-isolated-on-white-background-free-vector.jpg" width="50" height="50">
+        </div>
+      </div>
+
+      <div class="sales-boxes">
+        <div class="recent-sales box">
+          <div class="title">Previous Trips</div>
+          <div class="sales-details">
+            <ul class="details">
+              <li class="topic">Date</li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+              <li><a href="#">02 Jan 2021</a></li>
+            </ul>
+            <ul class="details">
+            <li class="topic">Pickup Location</li>
+            <li><a href="#">Alex Doe</a></li>
+            <li><a href="#">David Mart</a></li>
+            <li><a href="#">Roe Parter</a></li>
+            <li><a href="#">Diana Penty</a></li>
+            <li><a href="#">Martin Paw</a></li>
+            <li><a href="#">Doe Alex</a></li>
+            <li><a href="#">Aiana Lexa</a></li>
+            <li><a href="#">Rexel Mags</a></li>
+             <li><a href="#">Tiana Loths</a></li>
+          </ul>
+          <ul class="details">
+            <li class="topic">Drop Location</li>
+            <li><a href="#">Delivered</a></li>
+            <li><a href="#">Pending</a></li>
+            <li><a href="#">Returned</a></li>
+            <li><a href="#">Delivered</a></li>
+            <li><a href="#">Pending</a></li>
+            <li><a href="#">Returned</a></li>
+            <li><a href="#">Delivered</a></li>
+             <li><a href="#">Pending</a></li>
+            <li><a href="#">Delivered</a></li>
+          </ul>
+          <ul class="details">
+            <li class="topic">Amount</li>
+            <li><a href="#">$204.98</a></li>
+            <li><a href="#">$24.55</a></li>
+            <li><a href="#">$25.88</a></li>
+            <li><a href="#">$170.66</a></li>
+            <li><a href="#">$56.56</a></li>
+            <li><a href="#">$44.95</a></li>
+            <li><a href="#">$67.33</a></li>
+             <li><a href="#">$23.53</a></li>
+             <li><a href="#">$46.52</a></li>
+          </ul>
+          </div>
+          <div class="button" id="all">
+            <a href="#">See All</a>
+          </div>
+          <script type="text/javascript">
+            document.getElementById("all").onclick = function () {
+                location.href = "previoustrips.html";
+            };
+        </script>
+        </div>
+        <div class="top-sales box">
+          <div class="title">Current status</div>
+          <ul class="top-sales-details">
+            <li>
+            <a href="#">
+              <!--<img src="images/sunglasses.jpg" alt="">-->
+              <span class="product">Pickup Location</span>
+            </a>
+            <span class="price">$1107</span>
+          </li>
+          <li>
+            <a href="#">
+               <!--<img src="images/jeans.jpg" alt="">-->
+              <span class="product">Drop Location</span>
+            </a>
+            <span class="price">$1567</span>
+          </li>
+          <li>
+            <a href="#">
+             <!-- <img src="images/nike.jpg" alt="">-->
+              <span class="product">Driver Name</span>
+            </a>
+            <span class="price">$1234</span>
+          </li>
+          <li>
+            <a href="#">
+              <!--<img src="images/scarves.jpg" alt="">-->
+              <span class="product">Car</span>
+            </a>
+            <span class="price">$2312</span>
+          </li>
+          <li>
+            <a href="#">
+              <!--<img src="images/blueBag.jpg" alt="">-->
+              <span class="product">Type</span>
+            </a>
+            <span class="price">$1456</span>
+          </li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+   let sidebar = document.querySelector(".sidebar");
+let sidebarBtn = document.querySelector(".sidebarBtn");
+sidebarBtn.onclick = function() {
+  sidebar.classList.toggle("active");
+  if(sidebar.classList.contains("active")){
+  sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
+}else
+  sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+}
+ </script>
+
+</body>
+</html>
+
