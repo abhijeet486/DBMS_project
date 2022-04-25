@@ -39,7 +39,13 @@
         <li>
           <a href="#" class="active">
             <i class='bx bx-grid-alt' ></i>
-            <span class="links_name">Manage Vehicles</span>
+            <form action="{% url 'Mangevehicles' %}" method="post">{% csrf_token %}
+                <span class="links_name">
+                  <input type="hidden" name="driver_id" value = {{driver_id}} />
+                  <button type="submit">Manage Vehicles
+                  </button>
+                </span>
+            </form>
           </a>
         </li>
         <li>
@@ -53,7 +59,12 @@
         <li class="log_out">
           <a href="#">
             <i class='bx bx-log-out'></i>
-            <span class="links_name">log out</span>
+            <form action="{% url 'login'%}" method="post">{% csrf_token %}
+              <span class="links_name">
+                <button type="submit" >Log out
+                </button>
+              </span>
+            </form>
           </a>
         </li>
       </ul>
@@ -66,36 +77,56 @@
       </div>
       <div class="profile-details">
         <!--<img src="images/profile.jpg" alt="">-->
-        <span class="admin_name">Prem Shahi</span>
+        <span class="admin_name">{{driver_name.0}}</span>
         <i class='bx bx-chevron-down' ></i>
       </div>
     </nav>
 
     <div class="home-content">
-      <div class="overview-boxes">
-        <div class="box">
-          <button type="button" id ="driver" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
-           MINI
-        </button>
-        </div>
-        <div class="box">
-          <div class="right-side">
-            <div class="box-topic"><button type="button" id ="driver" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
-                SEDAN
-             </button></div>
-          </div>
-          <img src="https://static.vecteezy.com/system/resources/thumbnails/000/643/002/small/illust58-215.jpg" width="50" height="50">
-        </div>
-        <div class="box">
-          <div class="right-side">
-            <div class="box-topic"><button type="button" id ="driver" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
-                SUV
-             </button></div>
-          </div>
-        </div>
-      </div>
-
       <div class="sales-boxes">
+        {% if current_status.0 != 'FALSE' %}
+        <div class="top-sales box">
+          <div class="title">Ride status</div>
+          <ul class="top-sales-details">
+            <li>
+            <a href="#">
+              <!--<img src="images/sunglasses.jpg" alt="">-->
+              <span class="product">Pickup Location</span>
+            </a>
+            <span class="price">Okhla</span>
+          </li>
+          <li>
+            <a href="#">
+               <!--<img src="images/jeans.jpg" alt="">-->
+              <span class="product">Drop Location</span>
+            </a>
+            <span class="price">Gurgaon</span>
+          </li>
+          <li>
+            <a href="#">
+             <!-- <img src="images/nike.jpg" alt="">-->
+              <span class="product">Driver Name</span>
+            </a>
+            <span class="price">{{driver_name}}</span>
+          </li>
+          <li>
+            <a href="#">
+              <!--<img src="images/scarves.jpg" alt="">-->
+              <span class="product">Car</span>
+            </a>
+            <span class="price">Santro</span>
+          </li>
+          <li>
+            <a href="#">
+              <!--<img src="images/blueBag.jpg" alt="">-->
+              <span class="product">Type</span>
+            </a>
+            <span class="price">Mini</span>
+          </li>
+
+          </ul>
+        </div>
+        {% else %}
         <div class="recent-sales box">
           <div class="title">Booking requests</div>
           <div class="sales-details">
@@ -155,47 +186,7 @@
             <a href="#">See All</a>
           </div>
         </div>
-        <div class="top-sales box">
-          <div class="title">Current status</div>
-          <ul class="top-sales-details">
-            <li>
-            <a href="#">
-              <!--<img src="images/sunglasses.jpg" alt="">-->
-              <span class="product">Pickup Location</span>
-            </a>
-            <span class="price">Okhla</span>
-          </li>
-          <li>
-            <a href="#">
-               <!--<img src="images/jeans.jpg" alt="">-->
-              <span class="product">Drop Location</span>
-            </a>
-            <span class="price">Gurgaon</span>
-          </li>
-          <li>
-            <a href="#">
-             <!-- <img src="images/nike.jpg" alt="">-->
-              <span class="product">Driver Name</span>
-            </a>
-            <span class="price">Abhi</span>
-          </li>
-          <li>
-            <a href="#">
-              <!--<img src="images/scarves.jpg" alt="">-->
-              <span class="product">Car</span>
-            </a>
-            <span class="price">Santro</span>
-          </li>
-          <li>
-            <a href="#">
-              <!--<img src="images/blueBag.jpg" alt="">-->
-              <span class="product">Type</span>
-            </a>
-            <span class="price">Mini</span>
-          </li>
-
-          </ul>
-        </div>
+        {% endif %}
       </div>
     </div>
   </section>

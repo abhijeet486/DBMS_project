@@ -94,24 +94,25 @@ h1 {
 def getdf(context, columns, data):
     for c in columns:
         context[c] = []
-            
     for d in data:
         for i in range(len(columns)):
             context[columns[i]].append(d[i])
     BASE_DIR = Path(__file__).resolve().parent.parent
-
     df = pd.DataFrame.from_dict(context)
     df.to_csv(os.path.join(BASE_DIR,'use.csv'),index=False)
-
     df = pd.read_csv(os.path.join(BASE_DIR,'use.csv'))
-    
-    obj = df.to_html(os.path.join(BASE_DIR,"templates/data.html"))
-    df.to_html(os.path.join(BASE_DIR,"templates/data.html"))
-    with open(os.path.join(BASE_DIR,"templates/data.html")) as file:
+    obj = df.to_html(os.path.join(BASE_DIR,"template\\data.html"))
+    df.to_html(os.path.join(BASE_DIR,"template\\data.html"))
+    with open(os.path.join(BASE_DIR,"template\\data.html")) as file:
         file = file.read()
     file = file.replace("<table ", "<table class='rwd-table'")
-    with open(os.path.join(BASE_DIR,"templates/data.html"), "w") as file_to_write:
+    with open(os.path.join(BASE_DIR,"template\\data.html"), "w") as file_to_write:
         file_to_write.write(html + file)
+    # for c in context:
+    #   if len(context[c])<=1:
+    #     tmp = context[c]
+    #     context[c] = tmp[0]
+    return context
 
 def writeinfile(string):
   with open('user.txt','w') as writer:

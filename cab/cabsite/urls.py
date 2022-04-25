@@ -14,5 +14,6 @@ urlpatterns = [
     path('previoustrips',views.previoustrips,name='previoustrips'),
     path('editpassenger',views.editpassenger,name='editpassenger'),
     path('editdriver',views.edit_driver,name='edit_driver'),
+    path('manage',views.Mangevehicles,name='Mangevehicles'),
     # path('cabsite/',include('cabsite.urls'))
 ]
