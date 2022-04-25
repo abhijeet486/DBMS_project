@@ -19,41 +19,38 @@
                 class="img-fluid" alt="Sample image">
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-              <form action="{% url 'loginaccess'%}" method="POST" >
-              {% csrf_token %}
+              <form class="form1" action="{% url 'loginaccess' %}" method="post" >{% csrf_token %}
                 <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                  <input type="hidden" id="category" name="category" />
                   <button type="button" id ="driver" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">Driver
                   </button>
                   <script type="text/javascript">
-                    let a=-1;
                     document.getElementById("driver").onclick = function () {
-                        a=0;
+                      document.getElementById("category").setAttribute('value',0) ;
                     };
                 </script>
                   <div class="space"> </div>
-                  <button type="submit" id ="customer" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">Customer
+                  <button type="button" id ="customer" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">Customer
                   </button>
                   <script type="text/javascript">
                     document.getElementById("customer").onclick = function () {
-                        a=1;
+                      document.getElementById("category").setAttribute('value',1) ;
                     }; 
                 </script>
                 </div>
-      
                 <div class="divider d-flex align-items-center my-4">
                   <p class="text-center fw-bold mx-3 mb-0"></p>
                 </div>
       
                 <!-- Email input -->
                 <div class="form-outline mb-4">
-                  <input type="email" id="form3Example3" name="emailid" value="{{login_id}}"class="form-control form-control-lg"
-                    placeholder="Enter a valid email address" />
-                  <label class="form-label" for="form3Example3">Email address</label>
+                  <input type="text" id="form3Example3" name="username" class="form-control form-control-lg"
+                    placeholder="Enter a valid username" />
+                  <label class="form-label" for="form3Example3">Username</label>
                 </div>
-      
                 <!-- Password input -->
                 <div class="form-outline mb-3">
-                  <input type="password" id="form3Example4" name="pwd" value="{{login_pwd}}" class="form-control form-control-lg" 
+                  <input type="password" id="form3Example4" name="pwd" class="form-control form-control-lg" 
                     placeholder="Enter password" />
                   <label class="form-label" for="form3Example4">Password</label>
                 </div>
@@ -70,20 +67,13 @@
                 </div>
       
                 <div class="text-center text-lg-start mt-4 pt-2">
-                  <button type="submit" id="login" formmethod="post" formaction="/loginaccess" onclick="location.href='{% url 'loginaccess' %}'"class="btn btn-primary btn-lg"
+                  <button type="submit" id="login"  class="btn btn-primary btn-lg"
                     style="padding-left: 2.5rem; padding-right: 2.5rem;">Login
                   </button> 
                   <!-- changed -->
                   <!-- <script type="text/javascript">
                     document.getElementById("login").onclick = function () {
-                      if(a==0){
-                        location.href = './driver';
-                        a=-1;
-                      }
-                      else if(a==1){
-                        location.href = './customer';
-                        a=-1;
-                      }
+                      a=-1;
                     };
                 </script>  -->
                 <!-- changed -->

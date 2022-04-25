@@ -2,7 +2,7 @@
 from asyncio.log import logger
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from sympy import false
+from django.views.generic import CreateView
 
 # Create your views here.
 from cabsite.users import *
@@ -37,27 +37,13 @@ def previoustrips(request):
     return render(request,'DBMS/previoustrips.html',{})
 
 def loginaccess(request):
-    print(request.method)
     if request.method == 'POST':
-        l_id = request.POST.get('emailid')
-        print(l_id)
+        l_id = request.POST.get("username")
         writeinfile(l_id)
         if l_id in user_id_pwd:
-            if user_id_pwd[l_id] == request.POST['pwd'].strip():
-                if request.POST['a']==0:
+            if user_id_pwd[l_id] == request.POST["pwd"]:
+                if request.POST.get("category")=='0':
                     return driver(request)
-                elif request.POST['a']==1:
+                elif request.POST.get("category")=='1':
                     return customer(request)
-    elif request.method =='GET':
-        if 'emailid' in request.GET:
-            l_id = request.GET.get('emailid')
-            print(l_id)
-            writeinfile(l_id)
-            if l_id in user_id_pwd:
-                if user_id_pwd[l_id] == request.GET['pwd'].strip():
-                    if request.POST['a']==0:
-                        return driver(request)
-                    elif request.POST['a']==1:
-                        return customer(request)
-        print(request.GET.items())
     return warning(request)
