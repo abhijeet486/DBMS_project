@@ -19,19 +19,29 @@
         <li>
           <a href="#" class="active">
             <i class='bx bx-grid-alt' ></i>
-            <span class="links_name">Dashboard</span>
+            <form action="{% url 'driver'%}" method="post">{% csrf_token %}
+              <input type="hidden" name="username" value = {{driver_id.0}} >
+            <span class="links_name"><button type="submit" >Dashboard</button></span>
+            </form>
           </a>
         </li>
         <li>
           <a href="#">
             <i class='bx bx-box' ></i>
-            <span class="links_name">Bookings</span>
+            <form action="{% url 'booking' %}" method="post">{% csrf_token %}
+              <input type="hidden" name="username" value = {{driver_id.0}} >
+            <span class="links_name"><button type="submit" >Bookings</button></span>
+            </form>
           </a>
         </li>
         <li>
             <a href="#" class="active">
               <i class='bx bx-grid-alt' ></i>
-              <span class="links_name">Trip details</span>
+              <form action="{% url 'previoustrips' %}" method="post">{% csrf_token %}
+                <input type="hidden" name="username" value = {{driver_id.0}} />
+                <input type="hidden" name="usertype" value= 0 />
+              <span class="links_name"><button type="submit" >Trip details</button></span>
+              </form>
             </a>
           </li>
           <li>
@@ -41,7 +51,7 @@
             <i class='bx bx-grid-alt' ></i>
             <form action="{% url 'Mangevehicles' %}" method="post">{% csrf_token %}
                 <span class="links_name">
-                  <input type="hidden" name="driver_id" value = {{driver_id}} />
+                  <input type="hidden" name="driver_id" value = {{driver_id.0}} />
                   <button type="submit">Manage Vehicles
                   </button>
                 </span>
@@ -107,7 +117,7 @@
              <!-- <img src="images/nike.jpg" alt="">-->
               <span class="product">Driver Name</span>
             </a>
-            <span class="price">{{driver_name}}</span>
+            <span class="price">{{driver_name.0}}</span>
           </li>
           <li>
             <a href="#">

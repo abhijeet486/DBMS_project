@@ -19,14 +19,21 @@
         <li>
           <a href="#" class="active">
             <i class='bx bx-grid-alt' ></i>
-            <span class="links_name">Dashboard</span>
+            <span class="links_name">
+              <form method="POST" action="{% url 'customer' %}">{% csrf_token %}
+                <input type="hidden" name="username" value= {{passenger_id.0}}/>
+              <button type = "submit" >Dashboard</button>
+              </form>
+            </span>
           </a>
         </li>
         <li>
           <a href="#">
             <i class='bx bx-box' ></i>
             <span class="links_name">
-              <form method="POST" action="{% url 'previoustrips'%}">{% csrf_token %}
+              <form method="POST" action="{% url 'previoustrips' %}">{% csrf_token %}
+                <input type="hidden" name="username" value= {{passenger_id.0}} />
+                <input type="hidden" name="usertype" value= 1 />
               <button type = "submit" >Previous Trips</button>
               </form>
             </span>
@@ -35,14 +42,22 @@
         <li>
           <a href="#">
             <i class='bx bx-cog' ></i>
-            <span class="links_name">Edit Details</span>
+            <span class="links_name">
+              <form method="POST" action="{% url 'editpassenger' %}">{% csrf_token %}
+                <input type="hidden" name="username" value= {{passenger_id.0}}/>
+              <button type = "submit" >Edit Details</button>
+              </form>
+            </span>
           </a>
         </li>
         <li class="log_out">
           <a href="#">
             <i class='bx bx-log-out'></i>
-            <form action="{% url 'login'%}" method="post">{% csrf_token %}
-              <span class="links_name"><button type="submit" >Log out</button></span></form>
+            <span class="links_name">
+              <form action="{% url 'login'%}" method="post">{% csrf_token %}
+                <button type="submit" >Log out</button>
+              </form>
+            </span>
           </a>
         </li>
       </ul>

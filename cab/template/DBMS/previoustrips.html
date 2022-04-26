@@ -20,7 +20,19 @@
         <li>
           <a href="#" class="active">
             <i class='bx bx-grid-alt' ></i>
-            <span class="links_name">Dashboard</span>
+            {% if usertype == "0" %}
+            <form action="{% url 'driver'%}" method="post">{% csrf_token %}
+              <input type="hidden" name="username" value = {{Trip_Driver_ID.0}} >
+              <input type="hidden" name="usertype" value= 0 >
+            <span class="links_name"><button type="submit" >Dashboard</button></span>
+            </form>
+            {% else %}
+            <form action="{% url 'customer'%}" method="post">{% csrf_token %}
+              <input type="hidden" name="username" value = {{Trip_Passenger_ID.0}} >
+              <input type="hidden" name="usertype" value= 1 >
+            <span class="links_name"><button type="submit" >Dashboard</button></span>
+            </form>
+            {% endif %}
           </a>
         </li>
         <li>
@@ -52,7 +64,7 @@
       </div>
       <div class="profile-details">
         <!--<img src="images/profile.jpg" alt="">-->
-        <span class="admin_name">Prem Shahi</span>
+        <span class="admin_name">{{displayname}}</span>
         <i class='bx bx-chevron-down' ></i>
       </div>
     </nav>
@@ -64,49 +76,28 @@
           <div class="sales-details">
             <ul class="details">
               <li class="topic">Date</li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
+              {% for i in Trip_Date_Day %}
+              <li><a href="#">{{ i|date:"d M Y" }}</a></li>
+              {% endfor %}
             </ul>
             <ul class="details">
             <li class="topic">Pickup Location</li>
-            <li><a href="#">Alex Doe</a></li>
-            <li><a href="#">David Mart</a></li>
-            <li><a href="#">Roe Parter</a></li>
-            <li><a href="#">Diana Penty</a></li>
-            <li><a href="#">Martin Paw</a></li>
-            <li><a href="#">Doe Alex</a></li>
-            <li><a href="#">Aiana Lexa</a></li>
-            <li><a href="#">Rexel Mags</a></li>
-             <li><a href="#">Tiana Loths</a></li>
+            {% for i in Pickup_Location %}
+            <li><a href="#">{{i}}</a></li>
+            {% endfor %}
           </ul>
           <ul class="details">
             <li class="topic">Drop Location</li>
-            <li><a href="#">Delivered</a></li>
-            <li><a href="#">Pending</a></li>
+            {% for i in Drop_Location %}
+            <li><a href="#">{{i}}</a></li>
+            {% endfor %}
+            <!-- <li><a href="#">Pending</a></li>
             <li><a href="#">Returned</a></li>
-            <li><a href="#">Delivered</a></li>
-            <li><a href="#">Pending</a></li>
-            <li><a href="#">Returned</a></li>
-            <li><a href="#">Delivered</a></li>
-             <li><a href="#">Pending</a></li>
-            <li><a href="#">Delivered</a></li>
+            <li><a href="#">Delivered</a></li> -->
           </ul>
           <ul class="details">
             <li class="topic">Amount</li>
             <li><a href="#">$204.98</a></li>
-            <li><a href="#">$24.55</a></li>
-            <li><a href="#">$25.88</a></li>
-            <li><a href="#">$170.66</a></li>
-            <li><a href="#">$56.56</a></li>
-            <li><a href="#">$44.95</a></li>
-            <li><a href="#">$67.33</a></li>
-             <li><a href="#">$23.53</a></li>
-             <li><a href="#">$46.52</a></li>
           </ul>
           </div>
         </div>
