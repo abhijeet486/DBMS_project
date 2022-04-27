@@ -21,7 +21,7 @@
             <i class='bx bx-grid-alt' ></i>
             <span class="links_name">
               <form method="POST" action="{% url 'customer' %}">{% csrf_token %}
-                <input type="hidden" name="username" value= {{passenger_id.0}}/>
+                <input type="hidden" name="username" value= {{Passenger_ID.0}} >
               <button type = "submit" >Dashboard</button>
               </form>
             </span>
@@ -32,8 +32,7 @@
             <i class='bx bx-box' ></i>
             <span class="links_name">
               <form method="POST" action="{% url 'previoustrips' %}">{% csrf_token %}
-                <input type="hidden" name="username" value= {{passenger_id.0}} />
-                <input type="hidden" name="usertype" value= 1 />
+                <input type="hidden" name="username" value= {{Passenger_ID.0}} >
               <button type = "submit" >Previous Trips</button>
               </form>
             </span>
@@ -44,7 +43,7 @@
             <i class='bx bx-cog' ></i>
             <span class="links_name">
               <form method="POST" action="{% url 'editpassenger' %}">{% csrf_token %}
-                <input type="hidden" name="username" value= {{passenger_id.0}}/>
+                <input type="hidden" name="username" value= {{Passenger_ID.0}} >
               <button type = "submit" >Edit Details</button>
               </form>
             </span>
@@ -54,7 +53,7 @@
           <a href="#">
             <i class='bx bx-log-out'></i>
             <span class="links_name">
-              <form action="{% url 'login'%}" method="post">{% csrf_token %}
+              <form action="{% url 'logout'%}" method="post">{% csrf_token %}
                 <button type="submit" >Log out</button>
               </form>
             </span>
@@ -70,7 +69,7 @@
       </div>
       <div class="profile-details">
         <!--<img src="images/profile.jpg" alt="">-->
-        <span class="admin_name">{{name.0}}</span>
+        <span class="admin_name">{{Name.0}}</span>
         <i class='bx bx-chevron-down' ></i>
       </div>
     </nav>
@@ -79,45 +78,58 @@
       {%if status.0 != 'TRUE'%}
       <div class="overview-boxes">
         <div class="box">
-          <button type="button" id ="mini" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
-            <h1>MINI</h1>
-        </button>
-        <script type="text/javascript">
+          <form method="post" action="{% url 'booking' %}">
+            {% csrf_token %}
+            <button type="submit" id ="mini" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+              <h1>MINI</h1>
+            </button>
+          </form>
+        <!-- <script type="text/javascript">
             b = -1;
             document.getElementById("mini").onclick = function () {
                 location.href = "booking.html";
                 b=0;
             };
-        </script>
+        </script> -->
         <img src="https://static.vecteezy.com/system/resources/thumbnails/000/643/002/small/illust58-215.jpg" width="50" height="50">
         </div>
         <div class="box">
           <div class="right-side">
-            <div class="box-topic"><button type="button" id ="sedan" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
-                <h1>SEDAN</h1>
-             </button></div>
-             <script type="text/javascript">
+            <div class="box-topic">
+              <form method="post" action="{% url 'booking' %}">
+                {% csrf_token %}
+                <button type="submit" id ="sedan" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                  <h1>SEDAN</h1>
+                </button>
+              </form>
+            </div>
+             <!-- <script type="text/javascript">
                 b = -1;
                 document.getElementById("sedan").onclick = function () {
                     location.href = "booking.html";
                     b=1;
                 };
-            </script>
+            </script> -->
           </div>
           <img src="https://us.123rf.com/450wm/alextanya123rf/alextanya123rf1905/alextanya123rf190500017/127034419-car-icon-isolated-on-white-background-side-view-vector-design-element-pictogram-and-illustration-bla.jpg?ver=6" width="100" height="50">
         </div>
         <div class="box">
           <div class="right-side">
-            <div class="box-topic"><button type="button" id ="suv" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
-                <h1>SUV</h1>
-             </button></div>
-             <script type="text/javascript">
+            <div class="box-topic">
+              <form method="post" action="{% url 'booking' %}">
+                {% csrf_token %}
+                <button type="submit" id ="suv" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                  <h1>SUV</h1>
+                </button>
+              </form>
+            </div>
+             <!-- <script type="text/javascript">
                 b = -1;
                 document.getElementById("suv").onclick = function () {
                     location.href = "booking.html";
                     b=2;
                 };
-            </script>
+            </script> -->
           </div>
           <img src="https://static.vecteezy.com/system/resources/thumbnails/002/655/978/small/suv-car-side-view-silhouette-icon-isolated-on-white-background-free-vector.jpg" width="50" height="50">
         </div>

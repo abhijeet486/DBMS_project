@@ -20,7 +20,7 @@
         <li>
           <a href="#" class="active">
             <i class='bx bx-grid-alt' ></i>
-            {% if usertype == "0" %}
+            {% if usertype == 0 %}
             <form action="{% url 'driver'%}" method="post">{% csrf_token %}
               <input type="hidden" name="username" value = {{Trip_Driver_ID.0}} >
               <input type="hidden" name="usertype" value= 0 >
@@ -44,13 +44,25 @@
         <li>
           <a href="#">
             <i class='bx bx-cog' ></i>
-            <span class="links_name">Edit Details</span>
+              {% if usertype == 0 %}
+              <span class="links_name"></span>
+              <form action="{% url 'editdriver' %}" method="post">{% csrf_token %}
+                <input type="hidden" name="username" value={{Trip_Driver_ID.0}} >
+              <button type="submit" >Edit Details</button>
+              </form></span>
+              {% else %}
+              <span class="links_name">
+              <form action="{% url 'editpassenger' %}" method="post">{% csrf_token %}
+                <input type="hidden" name="username" value={{Trip_Passenger_ID.0}} >
+              <button type="submit" >Edit Details</button>
+              </form></span>
+              {% endif %}
           </a>
         </li>
         <li class="log_out">
           <a href="#">
             <i class='bx bx-log-out'></i>
-            <form action="{% url 'login'%}" method="post">{% csrf_token %}
+            <form action="{% url 'logout'%}" method="post">{% csrf_token %}
               <span class="links_name"><button type="submit" >Log out</button></span></form>
           </a>
         </li>

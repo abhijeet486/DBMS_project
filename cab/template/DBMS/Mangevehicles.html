@@ -21,7 +21,7 @@
           <a href="#" class="active">
             <i class='bx bx-grid-alt' ></i>
             <form action="{% url 'driver' %}" method="post">{% csrf_token %}
-              <input type="hidden" name="username" value = {{driver_id.0}} >
+              <input type="hidden" name="username" value = {{Driver_id.0}} >
             <span class="links_name"><button type="submit" >Dashboard</button></span>
             </form>
           </a>
@@ -30,7 +30,7 @@
           <a href="#">
             <i class='bx bx-box' ></i>
             <form action="{% url 'booking' %}" method="post">{% csrf_token %}
-              <input type="hidden" name="username" value = {{driver_id.0}} >
+              <input type="hidden" name="username" value = {{Driver_id.0}} >
             <span class="links_name"><button type="submit" >Bookings</button></span>
             </form>
           </a>
@@ -39,7 +39,7 @@
             <a href="#" class="active">
               <i class='bx bx-grid-alt' ></i>
               <form action="{% url 'previoustrips'%}" method="post">{% csrf_token %}
-                <input type="hidden" name="username" value = {{driver_id.0}} >
+                <input type="hidden" name="username" value = {{Driver_id.0}} >
               <span class="links_name"><button type="submit" >Trip details</button></span>
               </form>
             </a>
@@ -57,13 +57,17 @@
         
           <a href="#">
             <i class='bx bx-cog' ></i>
-            <span class="links_name">Edit Driver Details</span>
+            <span class="links_name">
+              <form action="{% url 'editdriver' %}" method="post">{% csrf_token %}
+                <input type="hidden" name="username" value={{Driver_id.0}} >
+              <button type="submit" >Edit Driver Details</button>
+              </form></span>
           </a>
         </li>
         <li class="log_out">
           <a href="#">
             <i class='bx bx-log-out'></i>
-            <form action="{% url 'login'%}" method="post">{% csrf_token %}
+            <form action="{% url 'logout'%}" method="post">{% csrf_token %}
               <span class="links_name">
                 <button type="submit" >Log out
                 </button>
@@ -81,7 +85,7 @@
       </div>
       <div class="profile-details">
         <!--<img src="images/profile.jpg" alt="">-->
-        <span class="admin_name">{{driver_name.0}}</span>
+        <span class="admin_name">{{Driver_Name.0}}</span>
         <i class='bx bx-chevron-down' ></i>
       </div>
     </nav>

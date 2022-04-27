@@ -1,3 +1,2 @@
-Trip_ID,Trip_Status,Trip_Date_Day,Trip_Passenger_ID,Trip_Driver_ID,Drop_Location,Pickup_Location
-981598471,FALSE,2022-02-23,109621042,4586099526,42085 Talisman Street,6 Carberry Alley
-1147362939,FALSE,2021-03-15,109621042,56133405,55 Gerald Terrace,605 Merchant Avenue
+Passenger_ID,Name,status
+109621042,Berti Spick,TRUE

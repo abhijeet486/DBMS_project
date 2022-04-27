@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8">
     
-    <link rel="stylesheet" type="text/css" href="{% static 'css/driverdetails.css'%">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/driverdetails.css' %}">
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,13 +21,19 @@
         <li>
           <a href="#" class="active">
             <i class='bx bx-grid-alt' ></i>
-            <span class="links_name">Dashboard</span>
+            <form action="{% url 'driver'%}" method="post">{% csrf_token %}
+              <input type="hidden" name="username" value = {{username}} >
+            <span class="links_name"><button type="submit" >Dashboard</button></span>
+            </form>
           </a>
         </li>
         <li>
           <a href="#">
             <i class='bx bx-box' ></i>
-            <span class="links_name">Previous Trips</span>
+            <form action="{% url 'previoustrips' %}" method="post">{% csrf_token %}
+              <input type="hidden" name="username" value={{username}} >
+            <span class="links_name"><button type="submit" >Previous Trips</button></span>
+            </form>
           </a>
         </li>
         <li>
@@ -39,7 +45,11 @@
         <li class="log_out">
           <a href="#">
             <i class='bx bx-log-out'></i>
-            <span class="links_name">Log out</span>
+            <span class="links_name">
+              <form action="{% url 'logout'%}" method="post">{% csrf_token %}
+                <button type="submit" >Log out</button>
+              </form>
+            </span>
           </a>
         </li>
       </ul>
@@ -48,49 +58,55 @@
     <nav>
       <div class="sidebar-button">
         <i class='bx bx-menu sidebarBtn'></i>
-        <span class="dashboard">Booking</span>
+        <span class="dashboard">Dashboard</span>
       </div>
       <div class="profile-details">
         <!--<img src="images/profile.jpg" alt="">-->
-        <span class="admin_name">Prem Shahi</span>
+        <span class="admin_name">{{name}}</span>
         <i class='bx bx-chevron-down' ></i>
       </div>
     </nav>
     <div class="home-content">
         <div class="overview-boxes">
           <div class="box" >
-            <form>
+            <form method="post" action="{% url 'savechanges' %}">{% csrf_token %}
+              <input type="hidden" name="username" value={{username}} >
                 <div class="form-group">
                   <label for="exampleInputEmail1">Name</label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name of driver ">
+                  <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name of driver ">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">License_Number</label>
-                  <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter new License_Number">
+                  <input type="text" name="license_no" class="form-control" id="exampleInputPassword1" placeholder="Enter new License_Number">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Date of birth</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter new date of birth">
+                    <label for="exampleInputPassword1">Date of birth (YYYY-MM-DD)</label>
+                    <input type="text" name="dob" class="form-control" id="exampleInputPassword1" placeholder="Enter new date of birth">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Current status</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter contact- number">
+                    <label for="exampleInputPassword1">Contact Number</label>
+                    <input type="text" name="contact" class="form-control" id="exampleInputPassword1" placeholder="Enter contact- number">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Available  <input type="checkbox"></label>
+                    <label >Current status</label>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Inride <input type="checkbox"></label>
+                    <label for="exampleInputPassword1">Available  <input type="checkbox" name="available"></label>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Off duty  <input type="checkbox"></label>
+                    <label for="exampleInputPassword1">Inride <input type="checkbox" name="inride"></label>
                   </div>
-                  
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Off duty  <input type="checkbox" name="off duty"></label>
+                  </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Cab location</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter your cab location">
+                    <input type="text" name="location" class="form-control" id="exampleInputPassword1" placeholder="Enter your cab location">
                   </div>
-                  
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Enter password: </label>
+                    <input type="text" name="pwd" class="form-control" id="exampleInputPassword1" placeholder="Enter password to save changes">
+                  </div>
                   
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
