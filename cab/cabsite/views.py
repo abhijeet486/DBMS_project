@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 
 # Create your views here.
 from django.db import connection
+from matplotlib.style import context
 from cabsite.users import *
 from cabsite.helpers import *
 
@@ -15,15 +16,38 @@ def login(request):
 
 def logout(request):
     with connection.cursor() as cursor:
-        query = """Drop view if exists User;"""
+        query = """Drop view if exists User, Dashboard Previous;"""
         cursor.execute(query)
     return login(request)
 
 def booking(request):
-    return render(request,'DBMS/booking.html',{})
+    context={}
+    if request.method == 'POST':
+        pk = request.POST.get("username")
+        print(pk)
+        with connection.cursor() as cursor:
+            query = """Select * from User;"""
+            cursor.execute(query)
+            data = cursor.fetchall()
+            context={}
+            cols = [ col[0] for col in cursor.description]
+            tab = getdf(context,cols,data)
+            if tab["status"][0]=='FALSE':
+                if tab["usertype"]==0:
+                    query ="""Select b.Drop_Location,b.Pickup_Location,Nameas RefName,Contact_Number as contactno from booking b join passenger on b.Request_Passenger_ID where b.Request_Driver_ID = {} and b.Request_Passenger_ID=Passenger_ID;"""
+                else :
+                    query = """Select Drop_Location,Pickup_Location,Driver_Name as RefName,Contact_number as contactno,Driver_Car_Number from booking join driver on Request_Driver_ID  where Request_Passenger_ID = {} and Request_Driver_ID = Driver_id ;"""
+                query = query.format(tab["username"][0])
+                print(query)
+                cursor.execute(query)
+                data = cursor.fetchall()
+                cols = [col[0] for col in cursor.description]
+                tab = getdf(context,cols,data)
+    return render(request,'DBMS/booking.html',context=tab)
 
 def bookingrequest(request):
-    return render(request,'DBMS/driver.html',{'request':1})
+    login(request)
+    return booking(request)
 
 def customer(request):
     if request.method == 'POST':
@@ -31,10 +55,10 @@ def customer(request):
         print(pk)
         with connection.cursor() as cur:
             query = """Create or Replace view User as 
-            Select *,1 as usertype from Passenger where passenger_id="{}"; """
+            Select Passenger_ID as username,Name,status,1 as usertype from Passenger where passenger_id="{}"; """
             query = query.format(pk)
             cur.execute(query)
-            query = """Select Passenger_ID,Name,status from User;"""
+            query = """Select * from User;"""
             cur.execute(query)
             data = cur.fetchall()
             if data==None or data ==():
@@ -43,6 +67,16 @@ def customer(request):
             #  ["passenger_id","name","date_of_birth","contact_number","pickup_location","status"] 
             context={}
             tab = getdf(context,cols,data)
+            if tab["status"][0]=='TRUE':
+                query = """ Create or Replace view Dashboard as
+                 Select Pickup_Location,Drop_Location,Driver_Name as RefName,Contact_number as contactno,Driver_Car_Number from (booking join user on username) join driver where username=Request_Passenger_ID and Request_Driver_ID = Driver_id  """
+                print(query)
+                cur.execute(query)
+                query="""Select * from Dashboard;"""
+                cur.execute(query)
+                data = cur.fetchall()
+                cols = [ col[0] for col in cur.description ]
+                tab = getdf(context,cols,data)
             print(tab)
         return render(request,'DBMS/customer.html',context=tab)
 
@@ -52,10 +86,10 @@ def driver(request):
         print(pk)
         with connection.cursor() as cur:
             query = """Create or Replace view User as 
-            Select *,0 as usertype from Driver where Driver_id="{}"; """
+            Select Driver_id as username,Driver_Name as Name,current_status as status,0 as usertype from Driver where Driver_id="{}"; """
             query = query.format(pk)
             cur.execute(query)
-            query = """Select Driver_id,Driver_Name,current_status from User;"""
+            query = """Select * from User;"""
             cur.execute(query)
             data = cur.fetchall()
             print(data)
@@ -65,16 +99,29 @@ def driver(request):
             # ["Driver_id","Driver_Name","Driver_License_No","Date_of_Birth","Contact_number","Rating","Cab_location","Current_status","Driver_Car_Number"] 
             context={}
             tab = getdf(context,cols,data)
+            if tab["status"][0]=='TRUE':
+                query = """ Create or Replace view Dashboard as
+                Select b.Pickup_Location,b.Drop_Location,p.Name as RefName,p.Contact_Number as contactno from ( Select * from booking join user on username where username=Request_Driver_ID) as b join passenger p where b.Request_Passenger_ID = p.Passenger_ID ; """
+                cur.execute(query)
+                print(query)
+                query="""Select * from Dashboard;"""
+                cur.execute(query)
+                data = cur.fetchall()
+                cols = [ col[0] for col in cur.description ]
+                tab = getdf(context,cols,data)
+            print(tab)
         return render(request,'DBMS/driver.html',context=tab)
 
 def editdriver(request):
     if request.method =='POST':
         pk = request.POST.get("username")
         with connection.cursor() as cursor:
-            cursor.execute("""Select Driver_Name from User;""")
-            name = cursor.fetchall()
-            name = name[0][0]
-    return render(request,'DBMS/edit_driver.html',{"username":pk,"name":name})
+            cursor.execute("""Select username,Name from User;""")
+            data = cursor.fetchall()
+            context={}
+            cols =["username","Name"]
+            tab = getdf(context,cols,data)
+    return render(request,'DBMS/edit_driver.html',context=tab)
 
 def savechanges(request):
     pk = request.POST.get("username")
@@ -147,7 +194,7 @@ def editpassenger(request):
         with connection.cursor() as cursor:
             cursor.execute("""Select Name from User;""")
             dname = cursor.fetchall()
-            dname=dname[0][0]
+            dname= dname[0][0]
     return render(request,'DBMS/editpassenger.html',{"username":pk,"name":dname})
 
 def payment(request):
@@ -159,13 +206,13 @@ def previoustrips(request):
         pk = request.POST.get("username")
         print(pk)
         with connection.cursor() as cursor:
-            query = """Select usertype from User;"""
+            query = """Select Name,usertype from User;"""
             cursor.execute(query)
-            ty = cursor.fetchall()
-            print(ty)
-            ty = ty[0][0]
+            data = cursor.fetchall()
+            val = data[0][0]
+            ty = data[0][1]
             query = """Create or Replace view PreviousTrips as
-            Select * from Trip where {}={} ;"""
+            Select * from Trip join Payment on Trip_ID where {}={} and Trip_Id_Pay=Trip_ID;"""
             if ty==0:
                 query = query.format("Trip_Driver_id",pk)
             else:
@@ -176,16 +223,7 @@ def previoustrips(request):
             data=cursor.fetchall()
             cols=[col[0] for col in cursor.description]
             contex = getdf(contex,cols,data)
-            if ty == 0:
-                query="""Select Driver_Name from User;"""
-                cursor.execute(query)
-                val = cursor.fetchall()
-                contex["displayname"] = val[0][0]
-            else:
-                query="""Select Name from User;"""
-                cursor.execute(query)
-                val = cursor.fetchall()
-                contex["displayname"] = val[0][0]
+            contex["displayname"] = val
             contex["usertype"] = ty
         print(contex)
     return render(request,'DBMS/previoustrips.html',context=contex)
@@ -193,17 +231,17 @@ def previoustrips(request):
 
 def Mangevehicles(request):
     if request.method == 'POST':
-        pk = request.POST.get("Driver_id")
+        pk = request.POST.get("username")
         with connection.cursor() as cursor:
             query = """Create or Replace view ManageVehicles as
-            Select d.Driver_id,d.Driver_Name,v.car_no,v.car_type,v.car_model from Driver d,Vehicle v where d.Driver_id="{}" and d.Driver_Car_Number=v.car_no;"""
+            Select d.Driver_id as username,d.Driver_Name as Name,v.car_no,v.car_type,v.car_model from Driver d,Vehicle v where d.Driver_id="{}" and d.Driver_Car_Number=v.car_no;"""
             query=query.format(int(pk))
             cursor.execute(query)
             query = """Select * from ManageVehicles;"""
             cursor.execute(query)
             data = cursor.fetchall()
             print(data)
-            cols =["Driver_id","Driver_Name","car_no","car_model","car_type"]
+            cols =["username","Name","car_no","car_model","car_type"]
             context={}
             tab = getdf(context,cols,data)
             print(tab)

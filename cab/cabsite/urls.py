@@ -12,11 +12,11 @@ urlpatterns = [
     path('payment',views.payment,name='payment'),
     path('login/',views.loginaccess,name="loginaccess"),
     path('logout/',views.logout,name="logout"),
-    path('previoustrips',views.previoustrips,name='previoustrips'),
+    path('trips/history',views.previoustrips,name='previoustrips'),
     path('booking/request',views.bookingrequest,name='bookingrequest'),
     path('edit/passenger',views.editpassenger,name='editpassenger'),
     path('edit/driver',views.editdriver,name='editdriver'),
-    path('edit/details',views.savechanges,name="savechanges"),
+    path('edit/save',views.savechanges,name="savechanges"),
     path('manage',views.Mangevehicles,name='Mangevehicles'),
     # path('cabsite/',include('cabsite.urls'))
 ]

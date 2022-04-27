@@ -22,7 +22,7 @@
           <a href="#" class="active">
             <i class='bx bx-grid-alt' ></i>
             <form action="{% url 'driver'%}" method="post">{% csrf_token %}
-              <input type="hidden" name="username" value = {{username}} >
+              <input type="hidden" name="username" value = {{username.0}} >
             <span class="links_name"><button type="submit" >Dashboard</button></span>
             </form>
           </a>
@@ -31,7 +31,7 @@
           <a href="#">
             <i class='bx bx-box' ></i>
             <form action="{% url 'previoustrips' %}" method="post">{% csrf_token %}
-              <input type="hidden" name="username" value={{username}} >
+              <input type="hidden" name="username" value={{username.0}} >
             <span class="links_name"><button type="submit" >Previous Trips</button></span>
             </form>
           </a>
@@ -62,7 +62,7 @@
       </div>
       <div class="profile-details">
         <!--<img src="images/profile.jpg" alt="">-->
-        <span class="admin_name">{{name}}</span>
+        <span class="admin_name">{{Name.0}}</span>
         <i class='bx bx-chevron-down' ></i>
       </div>
     </nav>
@@ -70,7 +70,7 @@
         <div class="overview-boxes">
           <div class="box" >
             <form method="post" action="{% url 'savechanges' %}">{% csrf_token %}
-              <input type="hidden" name="username" value={{username}} >
+              <input type="hidden" name="username" value={{username.0}} >
                 <div class="form-group">
                   <label for="exampleInputEmail1">Name</label>
                   <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name of driver ">
