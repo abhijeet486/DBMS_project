@@ -20,6 +20,19 @@ def logout(request):
         cursor.execute(query)
     return login(request)
 
+def showrequest(request):
+    context_={}
+    if request.method == 'POST':
+        pk = request.POST.get("username")
+        with connection.cursor() as cursor:
+            query = """Select * from User;"""
+            cursor.execute(query)
+            data = cursor.fetchall()
+            context={}
+            cols = [ col[0] for col in cursor.description]
+            tab = getdf(context,cols,data)
+    return render(request,'DBMS/driver_booking_requests.html',context=context_)
+
 def booking(request):
     context={}
     if request.method == 'POST':
@@ -32,8 +45,13 @@ def booking(request):
             context={}
             cols = [ col[0] for col in cursor.description]
             tab = getdf(context,cols,data)
-            query = """Select Driver_id from booking where Request_Passenger_ID={}"""
+            query = """Select count(*) from booking where Request_Passenger_ID={} and Request_Driver_ID<0;"""
             query = query.format(pk)
+            cursor.execute(query)
+            data = cursor.fetchall()
+            print(data)
+            if data[0][0]>0:
+                tab["progress"]=1
     return render(request,'DBMS/booking.html',context=tab)
 
 def bookingrequest(request):
@@ -44,8 +62,14 @@ def bookingrequest(request):
         with connection.cursor() as cursor:
             drop_loc = request.POST.get("drop_location")
             pick_loc = request.POST.get("pickup_location")
-            query ="""INSERT INTO booking (Drop_Location, Pickup_Location, Request_Passenger_ID, Request_Driver_ID) VALUES ('{}', '{}', '{}', '-1');"""
-            query = query.format(drop_loc,pick_loc,pk)
+            query = """Select * from booking where Request_Passenger_ID={}; """
+            query = query.format(pk)
+            cursor.execute(query)
+            data = cursor.fetchall()
+            if data==():
+                query ="""INSERT INTO booking (Drop_Location, Pickup_Location, Request_Passenger_ID, Request_Driver_ID) VALUES ('{}', '{}', '{}', '-1');"""
+                query = query.format(drop_loc,pick_loc,pk)
+                cursor.execute(query)
     return booking(request)
 
 def customer(request):

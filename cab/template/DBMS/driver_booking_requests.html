@@ -28,10 +28,7 @@
         <li>
           <a href="#">
             <i class='bx bx-box' ></i>
-            <form action="{% url 'bookingrequest' %}" method="post">{% csrf_token %}
-              <input type="hidden" name="username" value = {{username.0}} >
-            <span class="links_name"><button type="submit" >Bookings</button></span>
-            </form>
+            <span class="links_name">Bookings</span>
           </a>
         </li>
         <li>
