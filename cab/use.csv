@@ -1,1 +1,2 @@
-Drop_Location,Pickup_Location,Request_Passenger_ID,Request_Driver_ID
+username,Name,status,usertype
+1158270291,Whitaker Dunan,FALSE,0

@@ -15,6 +15,7 @@ urlpatterns = [
     path('trips/history',views.previoustrips,name='previoustrips'),
     path('booking/request',views.bookingrequest,name='bookingrequest'),
     path('request/show',views.showrequest,name='showrequest'),
+    path('request/accept',views.acceptrequest,name='acceptrequest'),
     path('edit/passenger',views.editpassenger,name='editpassenger'),
     path('edit/driver',views.editdriver,name='editdriver'),
     path('edit/save',views.savechanges,name="savechanges"),

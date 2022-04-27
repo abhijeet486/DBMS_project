@@ -1,3 +1,5 @@
+import imp
+from random import randint
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
@@ -6,6 +8,7 @@ from django.db import connection
 from matplotlib.style import context
 from cabsite.users import *
 from cabsite.helpers import *
+from datetime import datetime
 
 def warning(request):
     return HttpResponse("Invalid credentials")
@@ -31,10 +34,71 @@ def showrequest(request):
             context={}
             cols = [ col[0] for col in cursor.description]
             tab = getdf(context,cols,data)
-            cursor.execute("""Select * from booking where Request_Driver_ID= -1 ;""")
-            req = cursor.fetchall()
+            if tab["status"][0]=='FALSE':
+                cursor.execute("""Select * from booking ;""")
+                req = cursor.fetchall()
+                cols = [ col[0] for col in cursor.description]
+                tab["request_list"] = getdf({},cols,req)
+                tab_data = getdf({},cols,req)
+                for i in tab_data:
+                    tab[i] = tab_data[i]
+            else:
+                cursor.execute("""Select * from Dashboard ;""")
+                req = cursor.fetchall()
+                cols = [ col[0] for col in cursor.description]
+                tab_data = getdf({},cols,req)
+                for i in tab_data:
+                    tab[i] = tab_data[i]
+    return render(request,'DBMS/driver_booking_requests.html',context=tab)
+
+def acceptrequest(request):
+    context_={}
+    if request.method == 'POST':
+        pk = request.POST.get("username")
+        with connection.cursor() as cursor:
+            query = """Select * from User;"""
+            cursor.execute(query)
+            data = cursor.fetchall()
+            context={}
             cols = [ col[0] for col in cursor.description]
-            tab["request_list"] = getdf({},cols,req)
+            tab = getdf(context,cols,data)
+            if tab["status"][0]=='FALSE':
+                passenger_id = request.POST.get("passengerid")
+                query="""Select * from booking where Request_Passenger_ID={} ;"""
+                query=query.format(passenger_id)
+                cursor.execute(query)
+                req = cursor.fetchall()
+                print(req)
+                pick_loc = req[0][1]
+                drop_loc = req[0][0]
+                cols = [ col[0] for col in cursor.description]
+                tab["request_list"] = getdf({},cols,req)
+                # pick_loc = tab["request_list"]["Pickup_Location"][0]
+                # drop_loc = tab["request_list"]["Drop_Location"][0]
+                dt = datetime.now()
+                date_day = "{}-{}-{}".format(dt.year,dt.strftime('%m'),dt.day)
+                query = """Select Trip_ID from Trip ;"""
+                query = query.format()
+                cursor.execute(query)
+                tripidlist = cursor.fetchall()[0]
+                print(tripidlist)
+                while(True):
+                    tripid = randint(1000000000,9999999999)
+                    if tripid not in tripidlist:
+                        break
+                query = """Insert into Trip(Trip_ID,Trip_Status,Trip_Date_Day,Trip_Passenger_ID,Trip_Driver_ID,Drop_Location,Pickup_Location) values({},'FALSE','{}',{},{},'{}','{}');"""
+                query = query.format(tripid,date_day,passenger_id,pk,drop_loc,pick_loc)
+                cursor.execute(query)
+                query ="""Delete from booking where Request_Passenger_ID={}"""
+                query = query.format(passenger_id)
+                cursor.execute(query)
+                query = """UPDATE driver SET Current_status = 'TRUE' WHERE (Driver_id = '{}');"""
+                query = query.format(pk)
+                cursor.execute(query)
+                query = """Update Passenger SET status='TRUE' where Passenger_ID = '{}';"""
+                query = query.format(passenger_id)
+                cursor.execute(query)
+                tab["status"][0]=='TRUE'
     return render(request,'DBMS/driver_booking_requests.html',context=tab)
 
 def booking(request):
@@ -49,13 +113,14 @@ def booking(request):
             context={}
             cols = [ col[0] for col in cursor.description]
             tab = getdf(context,cols,data)
-            query = """Select count(*) from booking where Request_Passenger_ID={} and Request_Driver_ID<0;"""
+            query = """Select count(*) from booking where Request_Passenger_ID={} ;"""
             query = query.format(pk)
             cursor.execute(query)
             data = cursor.fetchall()
             print(data)
             if data[0][0]>0:
                 tab["progress"]=1
+            print(tab)
     return render(request,'DBMS/booking.html',context=tab)
 
 def bookingrequest(request):
@@ -70,8 +135,9 @@ def bookingrequest(request):
             query = query.format(pk)
             cursor.execute(query)
             data = cursor.fetchall()
+            print(data)
             if data==():
-                query ="""INSERT INTO booking (Drop_Location, Pickup_Location, Request_Passenger_ID, Request_Driver_ID) VALUES ('{}', '{}', '{}', '-1');"""
+                query ="""INSERT INTO booking (Drop_Location, Pickup_Location, Request_Passenger_ID) VALUES ('{}', '{}', '{}');"""
                 query = query.format(drop_loc,pick_loc,pk)
                 cursor.execute(query)
     return booking(request)
@@ -96,7 +162,7 @@ def customer(request):
             tab = getdf(context,cols,data)
             if tab["status"][0]=='TRUE':
                 query = """ Create or Replace view Dashboard as
-                 Select Pickup_Location,Drop_Location,Driver_Name as RefName,Contact_number as contactno,Driver_Car_Number from (booking join user on username) join driver where username=Request_Passenger_ID and Request_Driver_ID = Driver_id  """
+                 Select b.Pickup_Location,b.Drop_Location,Driver_Name as RefName,Contact_number as contactno,Driver_Car_Number from (Select Pickup_Location,Drop_Location,Trip_Driver_ID from trip join user on username=Trip_Passenger_ID) as b join driver on b.Trip_Driver_ID = Driver_id  ;"""
                 print(query)
                 cur.execute(query)
                 query="""Select * from Dashboard;"""
@@ -128,14 +194,18 @@ def driver(request):
             tab = getdf(context,cols,data)
             if tab["status"][0]=='TRUE':
                 query = """ Create or Replace view Dashboard as
-                Select b.Pickup_Location,b.Drop_Location,p.Name as RefName,p.Contact_Number as contactno from ( Select * from booking join user on username where username=Request_Driver_ID) as b join passenger p where b.Request_Passenger_ID = p.Passenger_ID ; """
+                Select b.Pickup_Location,b.Drop_Location,p.Name as RefName,p.Contact_Number as contactno from ( Select Pickup_Location,Drop_Location,Trip_Passenger_ID from trip join user on username=Trip_Driver_ID) as b join passenger p on b.Trip_Passenger_ID = p.Passenger_ID ; """
                 cur.execute(query)
                 print(query)
                 query="""Select * from Dashboard;"""
                 cur.execute(query)
                 data = cur.fetchall()
                 cols = [ col[0] for col in cur.description ]
-                tab = getdf(context,cols,data)
+                print(cols)
+                print(data)
+                new_data= getdf({},cols,data)
+                for i in new_data:
+                    tab[i] = new_data[i]
             print(tab)
         return render(request,'DBMS/driver.html',context=tab)
 
@@ -234,7 +304,7 @@ def previoustrips(request):
             val = data[0][0]
             ty = data[0][1]
             query = """Create or Replace view PreviousTrips as
-            Select * from Trip join Payment on Trip_ID where {}={} and Trip_Id_Pay=Trip_ID;"""
+            Select * from Trip join Payment on Trip_Id_Pay=Trip_ID where {}={};"""
             if ty==0:
                 query = query.format("Trip_Driver_id",pk)
             else:
@@ -273,10 +343,16 @@ def loginaccess(request):
     if request.method == 'POST':
         l_id = request.POST.get("username")
         writeinfile(l_id)
-        if l_id in user_id_pwd:
-            if user_id_pwd[l_id] == request.POST["pwd"]:
-                    if request.POST.get("category")=='0':
-                        return driver(request)
-                    elif request.POST.get("category")=='1':
-                        return customer(request)
+        with connection.cursor() as cursor:
+            query = """Select * from users where username={};"""
+            query = query.format(l_id)
+            cursor.execute(query)
+            user_Data = cursor.fetchall()
+            print(user_Data)
+            pwd = str(request.POST.get("pwd"))
+            if user_Data[0][1] == pwd:
+                if request.POST.get("category")=='0' and user_Data[0][2]==0:
+                            return driver(request)
+                elif request.POST.get("category")=='1' and user_Data[0][2]==1:
+                            return customer(request)
     return warning(request)

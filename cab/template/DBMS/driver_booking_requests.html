@@ -137,32 +137,37 @@
         <div class="recent-sales box">
           <div class="title">Booking requests</div>
           <div class="sales-details">
+            {% if Pickup_Location|length > 0 %}
             <ul class="details">
             <li class="topic">Pickup Location</li>
-            {% for i in request_list.Pickup_Location %}
+            {% for i in Pickup_Location %}
               <li><a href="#">{{i}}</a></li>
               {% endfor %}
           </ul>
           <ul class="details">
             <li class="topic">Drop Location</li>
-            {% for i in request_list.Drop_Location %}
+            {% for i in Drop_Location %}
               <li><a href="#">{{i}}</a></li>
               {% endfor %}
           </ul>
           <ul class="details">
             <li class="topic">Accept-trip</li>
-            <li><a href="#">Waiting</a> <input type="checkbox"></li>
-            <li><a href="#">Riding</a> <input type="checkbox"></li>
-            <li><a href="#">Waiting</a> <input type="checkbox"></li>
-            <li><a href="#">Riding</a> <input type="checkbox"></li>
-            <li><a href="#">Riding</a> <input type="checkbox"></li>
-            <li><a href="#">Waiting</a> <input type="checkbox"></li>
-            <li><a href="#">Riding</a> <input type="checkbox"></li>
-             <li><a href="#">Riding</a> <input type="checkbox"></li>
-            <li><a href="#">Waiting</a> <input type="checkbox"></li>
-
-            
+            {% for i in Request_Passenger_ID %}
+            <form method="post" action="{% url 'acceptrequest' %}" >
+              {% csrf_token %}
+              <li><a href="#">Waiting</a> 
+                <input type ="hidden" name="passengerid" value = {{i}} >
+                <input type="hidden" name="username" value = {{username.0}} >
+                <input type="submit" value="  ">
+              </li>
+            </form>
+              {% endfor %}
           </ul>
+          {% else %}
+          <ul class="details">
+            <li class="topic">No Request Available</li>
+          </ul>
+          {% endif %}
           </div>
         </div>
         {% endif %}
