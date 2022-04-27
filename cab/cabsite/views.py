@@ -31,7 +31,11 @@ def showrequest(request):
             context={}
             cols = [ col[0] for col in cursor.description]
             tab = getdf(context,cols,data)
-    return render(request,'DBMS/driver_booking_requests.html',context=context_)
+            cursor.execute("""Select * from booking where Request_Driver_ID= -1 ;""")
+            req = cursor.fetchall()
+            cols = [ col[0] for col in cursor.description]
+            tab["request_list"] = getdf({},cols,req)
+    return render(request,'DBMS/driver_booking_requests.html',context=tab)
 
 def booking(request):
     context={}

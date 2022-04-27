@@ -80,7 +80,7 @@
     <nav>
       <div class="sidebar-button">
         <i class='bx bx-menu sidebarBtn'></i>
-        <span class="dashboard">Dashboard</span>
+        <span class="dashboard">Booking</span>
       </div>
       <div class="profile-details">
         <!--<img src="images/profile.jpg" alt="">-->
@@ -138,41 +138,16 @@
           <div class="title">Booking requests</div>
           <div class="sales-details">
             <ul class="details">
-              <li class="topic">Date</li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-              <li><a href="#">02 Jan 2021</a></li>
-             
-            </ul>
-            <ul class="details">
             <li class="topic">Pickup Location</li>
-            <li><a href="#">Okhla</a></li>
-            <li><a href="#">New Delhi</a></li>
-            <li><a href="#">IIITD</a></li>
-            <li><a href="#">Kalkaji</a></li>
-            <li><a href="#">Kota</a></li>
-            <li><a href="#">Rohini</a></li>
-            <li><a href="#">Gurgaon</a></li>
-            <li><a href="#">Delhi</a></li>
-             <li><a href="#">New delhi</a></li>
+            {% for i in request_list.Pickup_Location %}
+              <li><a href="#">{{i}}</a></li>
+              {% endfor %}
           </ul>
           <ul class="details">
             <li class="topic">Drop Location</li>
-            <li><a href="#">Delhi</a></li>
-            <li><a href="#">IIITD</a></li>
-            <li><a href="#">Gurgaon</a></li>
-            <li><a href="#">Kota</a></li>
-            <li><a href="#">Gurgaon</a></li>
-            <li><a href="#">Okhla</a></li>
-            <li><a href="#">Okhls</a></li>
-             <li><a href="#">IIITD</a></li>
-            <li><a href="#">Delhi</a></li>
+            {% for i in request_list.Drop_Location %}
+              <li><a href="#">{{i}}</a></li>
+              {% endfor %}
           </ul>
           <ul class="details">
             <li class="topic">Accept-trip</li>
