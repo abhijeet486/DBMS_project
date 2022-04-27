@@ -109,11 +109,15 @@
           </ul>
           <ul class="details">
             <li class="topic">Amount</li>
-            <li><a href="#">{{Payment_Amount.0}}</a></li>
+            {% for i in Payment_Amount %}
+            <li><a href="#">{{i}}</a></li>
+            {% endfor %}
           </ul>
           <ul class="details">
             <li class="topic">Payment ID</li>
-            <li><a href="#">{{Payment_ID.0}}</a></li>
+            {% for i in Payment_ID %}
+            <li><a href="#">{{i}}</a></li>
+            {% endfor %}
           </ul>
           </div>
         </div>

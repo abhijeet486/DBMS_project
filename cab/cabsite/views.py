@@ -16,7 +16,7 @@ def login(request):
 
 def logout(request):
     with connection.cursor() as cursor:
-        query = """Drop view if exists User, Dashboard Previous;"""
+        query = """Drop view if exists User, Dashboard ,PreviousTrips;"""
         cursor.execute(query)
     return login(request)
 
@@ -154,11 +154,6 @@ def savechanges(request):
                 if contact!=None and contact!="":
                     query = """UPDATE driver SET Contact_number = '{}' WHERE (Driver_id = '{}');"""
                     query = query.format(contact,pk)
-                    cursor.execute(query)
-                location=request.POST.get("location")
-                if location!=None and location!="":
-                    query = """UPDATE driver SET Cab_location = '{}' WHERE (Driver_id = '{}');"""
-                    query = query.format(location,pk)
                     cursor.execute(query)
             else:
                 name=request.POST.get("name")
