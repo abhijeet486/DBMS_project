@@ -93,19 +93,26 @@
       {%if status.0 != 'TRUE'%}
         <div class="overview-boxes">
           <div class="box" >
+            {% if progress %}
+              <div class="form-group">
+                <label >Request in Progress</label>
+                </div>
+            {% else %}
             <form method="post" action="{% url 'bookingrequest' %}">
               {% csrf_token %}
               <input type="hidden" name="username" value= {{username.0}} >
                 <div class="form-group">
                   <label for="exampleInputEmail1">Pickup Location</label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pickup location">
+                  <input type="text" name="pickup_location" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter pickup location">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Drop Location</label>
-                  <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter drop location">
+                  <input type="text" name="drop_location" class="form-control" id="exampleInputPassword1" placeholder="Enter drop location">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
+              
+              {% endif %}
           </div>
         </div>
         {% else %}

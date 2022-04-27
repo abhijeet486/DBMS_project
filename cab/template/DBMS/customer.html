@@ -81,7 +81,7 @@
           <form method="post" action="{% url 'booking' %}">
             {% csrf_token %}
             <input type="hidden" name="username" value= {{username.0}} >
-            <button type="submit" name = "cartype" value ="mini" id ="mini" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+            <button type="submit" name = "cartype" value ="MINI" id ="mini" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
               <h1>MINI</h1>
             </button>
           </form>
@@ -100,7 +100,7 @@
               <form method="post" action="{% url 'booking' %}">
                 {% csrf_token %}
                 <input type="hidden" name="username" value= {{username.0}} >
-                <button type="submit" name="cartype" value="sedan" id ="sedan" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                <button type="submit" name="cartype" value="SEDAN" id ="sedan" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
                   <h1>SEDAN</h1>
                 </button>
               </form>
@@ -121,7 +121,7 @@
               <form method="post" action="{% url 'booking' %}">
                 {% csrf_token %}
                 <input type="hidden" name="username" value= {{username.0}} >
-                <button type="submit" name="cartype" value="suv" id ="suv" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                <button type="submit" name="cartype" value="SUV" id ="suv" class="btn btn-outline-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
                   <h1>SUV</h1>
                 </button>
               </form>
