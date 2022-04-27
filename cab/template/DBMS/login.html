@@ -27,6 +27,9 @@
                   <script type="text/javascript">
                     document.getElementById("driver").onclick = function () {
                       document.getElementById("category").setAttribute('value',0) ;
+                      document.getElementById("driver").style.background="blue";
+                      document.getElementById("customer").style.background="";
+                      
                     };
                 </script>
                   <div class="space"> </div>
@@ -35,6 +38,8 @@
                   <script type="text/javascript">
                     document.getElementById("customer").onclick = function () {
                       document.getElementById("category").setAttribute('value',1) ;
+                      document.getElementById("customer").style.background="blue";
+                      document.getElementById("driver").style.background="";
                     }; 
                 </script>
                 </div>
