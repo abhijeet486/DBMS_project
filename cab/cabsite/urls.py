@@ -14,6 +14,7 @@ urlpatterns = [
     path('logout/',views.logout,name="logout"),
     path('trips/history',views.previoustrips,name='previoustrips'),
     path('booking/request',views.bookingrequest,name='bookingrequest'),
+    path('request/show',views.showrequest,name='showrequest'),
     path('edit/passenger',views.editpassenger,name='editpassenger'),
     path('edit/driver',views.editdriver,name='editdriver'),
     path('edit/save',views.savechanges,name="savechanges"),

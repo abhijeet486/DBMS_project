@@ -20,6 +20,19 @@ def logout(request):
         cursor.execute(query)
     return login(request)
 
+def showrequest(request):
+    context_={}
+    if request.method == 'POST':
+        pk = request.POST.get("username")
+        with connection.cursor() as cursor:
+            query = """Select * from User;"""
+            cursor.execute(query)
+            data = cursor.fetchall()
+            context={}
+            cols = [ col[0] for col in cursor.description]
+            tab = getdf(context,cols,data)
+    return render(request,'DBMS/driver_booking_requests.html',context=context_)
+
 def booking(request):
     context={}
     if request.method == 'POST':
@@ -32,21 +45,31 @@ def booking(request):
             context={}
             cols = [ col[0] for col in cursor.description]
             tab = getdf(context,cols,data)
-            if tab["status"][0]=='FALSE':
-                if tab["usertype"]==0:
-                    query ="""Select b.Drop_Location,b.Pickup_Location,Nameas RefName,Contact_Number as contactno from booking b join passenger on b.Request_Passenger_ID where b.Request_Driver_ID = {} and b.Request_Passenger_ID=Passenger_ID;"""
-                else :
-                    query = """Select Drop_Location,Pickup_Location,Driver_Name as RefName,Contact_number as contactno,Driver_Car_Number from booking join driver on Request_Driver_ID  where Request_Passenger_ID = {} and Request_Driver_ID = Driver_id ;"""
-                query = query.format(tab["username"][0])
-                print(query)
-                cursor.execute(query)
-                data = cursor.fetchall()
-                cols = [col[0] for col in cursor.description]
-                tab = getdf(context,cols,data)
+            query = """Select count(*) from booking where Request_Passenger_ID={} and Request_Driver_ID<0;"""
+            query = query.format(pk)
+            cursor.execute(query)
+            data = cursor.fetchall()
+            print(data)
+            if data[0][0]>0:
+                tab["progress"]=1
     return render(request,'DBMS/booking.html',context=tab)
 
 def bookingrequest(request):
-    login(request)
+    context={}
+    if request.method == 'POST':
+        pk = request.POST.get("username")
+        print(pk)
+        with connection.cursor() as cursor:
+            drop_loc = request.POST.get("drop_location")
+            pick_loc = request.POST.get("pickup_location")
+            query = """Select * from booking where Request_Passenger_ID={}; """
+            query = query.format(pk)
+            cursor.execute(query)
+            data = cursor.fetchall()
+            if data==():
+                query ="""INSERT INTO booking (Drop_Location, Pickup_Location, Request_Passenger_ID, Request_Driver_ID) VALUES ('{}', '{}', '{}', '-1');"""
+                query = query.format(drop_loc,pick_loc,pk)
+                cursor.execute(query)
     return booking(request)
 
 def customer(request):
