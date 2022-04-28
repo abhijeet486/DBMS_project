@@ -87,6 +87,38 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3', #changed
         # 'NAME': BASE_DIR / 'db.sqlite3',
     }
+    ,
+    'customer': {
+        'ENGINE': 'django.db.backends.mysql',
+    	'NAME': 'project',
+        'USER': 'passenger',
+        'PASSWORD': 'passenger',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        # 'ENGINE': 'django.db.backends.sqlite3', #changed
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+    }
+    ,
+    'driver': {
+        'ENGINE': 'django.db.backends.mysql',
+    	'NAME': 'project',
+        'USER': 'driver',
+        'PASSWORD': 'driver',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        # 'ENGINE': 'django.db.backends.sqlite3', #changed
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'ADMIN': {
+        'ENGINE': 'django.db.backends.mysql',
+    	'NAME': 'project',
+        'USER': 'ADMIN',
+        'PASSWORD': 'SITE_ADMIN',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        # 'ENGINE': 'django.db.backends.sqlite3', #changed
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 

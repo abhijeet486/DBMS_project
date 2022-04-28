@@ -10,6 +10,8 @@ from cabsite.users import *
 from cabsite.helpers import *
 from datetime import datetime
 
+user_mysql='default'
+
 def warning(request):
     return HttpResponse("Invalid credentials")
 
@@ -358,7 +360,9 @@ def loginaccess(request):
             pwd = request.POST.get("pwd")
             if str(user_Data[0][1]) == pwd:
                 if request.POST.get("category")=='0' and user_Data[0][2]==0:
-                            return driver(request)
+                    user_mysql='driver'
+                    return driver(request)
                 elif request.POST.get("category")=='1' and user_Data[0][2]==1:
-                            return customer(request)
+                    user_mysql='customer'
+                    return customer(request)
     return warning(request)

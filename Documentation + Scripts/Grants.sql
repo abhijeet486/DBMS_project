@@ -1,24 +1,21 @@
 use dbms;
 
-create user ADMIN
+select user from mysql.user;
+
+create user ADMIN@localhost 
 IDENTIFIED BY 'SITE_ADMIN';
 
-
-
-
-SHOW GRANTS FOR ADMIN;
-
-
-
 GRANT ALL 
-ON dbms.*
-TO ADMIN;
+ON project.*
+TO ADMIN@localhost;
 
+SHOW GRANTS FOR ADMIN@localhost;
 
+-- create user driver;
+-- create user passenger;
 
-create user driver;
-create user passenger;
-
+CREATE USER 'driver'@'localhost' IDENTIFIED BY 'driver';
+CREATE USER 'passenger'@'localhost' IDENTIFIED BY 'passenger';
 
 grant select(Pickup_Location,Drop_Location) 
 on booking
@@ -39,3 +36,5 @@ to passenger;
 grant select(Driver_Name,Cab_Location)
 on driver
 to passenger;
+
+flush privileges;
