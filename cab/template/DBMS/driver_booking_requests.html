@@ -155,10 +155,11 @@
             {% for i in Request_Passenger_ID %}
             <form method="post" action="{% url 'acceptrequest' %}" >
               {% csrf_token %}
-              <li><a href="#">Waiting</a> 
+              <li><a href="#">Waiting
                 <input type ="hidden" name="passengerid" value = {{i}} >
                 <input type="hidden" name="username" value = {{username.0}} >
-                <input type="submit" value="  ">
+                <button type="submit" >
+              </a> 
               </li>
             </form>
               {% endfor %}

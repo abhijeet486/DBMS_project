@@ -38,10 +38,12 @@ def showrequest(request):
                 cursor.execute("""Select * from booking ;""")
                 req = cursor.fetchall()
                 cols = [ col[0] for col in cursor.description]
-                tab["request_list"] = getdf({},cols,req)
+                # tab["request_list"] = getdf({},cols,req)
                 tab_data = getdf({},cols,req)
                 for i in tab_data:
                     tab[i] = tab_data[i]
+                # for i in tab:
+                #     print(i,len(tab[i]))
             else:
                 cursor.execute("""Select * from Dashboard ;""")
                 req = cursor.fetchall()
@@ -350,7 +352,7 @@ def loginaccess(request):
             user_Data = cursor.fetchall()
             print(user_Data)
             pwd = str(request.POST.get("pwd"))
-            if user_Data[0][1] == pwd:
+            if str(user_Data[0][1]) == pwd:
                 if request.POST.get("category")=='0' and user_Data[0][2]==0:
                             return driver(request)
                 elif request.POST.get("category")=='1' and user_Data[0][2]==1:
