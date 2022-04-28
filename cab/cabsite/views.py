@@ -164,7 +164,7 @@ def customer(request):
             tab = getdf(context,cols,data)
             if tab["status"][0]=='TRUE':
                 query = """ Create or Replace view Dashboard as
-                 Select b.Pickup_Location,b.Drop_Location,Driver_Name as RefName,Contact_number as contactno,Driver_Car_Number from (Select Pickup_Location,Drop_Location,Trip_Driver_ID from trip join user on username=Trip_Passenger_ID) as b join driver on b.Trip_Driver_ID = Driver_id  ;"""
+                 Select b.Pickup_Location,b.Drop_Location,Driver_Name as RefName,Contact_number as contactno,Driver_Car_Number from (Select Pickup_Location,Drop_Location,Trip_Driver_ID from trip join user on username=Trip_Passenger_ID where Trip_Status='FALSE') as b join driver on b.Trip_Driver_ID = Driver_id  ;"""
                 print(query)
                 cur.execute(query)
                 query="""Select * from Dashboard;"""
