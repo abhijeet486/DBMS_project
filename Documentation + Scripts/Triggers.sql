@@ -53,11 +53,22 @@ CREATE  TRIGGER SAME_CAR_NO
 END IF;
 END;
 
+drop trigger if exists update_driver_status;
 
+Create trigger update_status after insert on trip
+for each row
+Update passenger
+set status = 'TRUE'
+where New.Trip_Passenger_ID=Passenger_ID;
 
+Create trigger update_driver_status after insert on trip
+for each row
+Update driver
+set Current_status = 'TRUE'
+where New.Trip_Driver_ID=Driver_id;
 
-
-
-
-
+Create trigger update_booking after insert on trip
+for each row 
+delete from booking
+where new.Trip_Passenger_ID=Request_Passenger_ID;
 

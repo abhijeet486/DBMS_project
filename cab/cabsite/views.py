@@ -91,15 +91,15 @@ def acceptrequest(request):
                 query = """Insert into Trip(Trip_ID,Trip_Status,Trip_Date_Day,Trip_Passenger_ID,Trip_Driver_ID,Drop_Location,Pickup_Location) values({},'FALSE','{}',{},{},'{}','{}');"""
                 query = query.format(tripid,date_day,passenger_id,pk,drop_loc,pick_loc)
                 cursor.execute(query)
-                query ="""Delete from booking where Request_Passenger_ID={}"""
-                query = query.format(passenger_id)
-                cursor.execute(query)
-                query = """UPDATE driver SET Current_status = 'TRUE' WHERE (Driver_id = '{}');"""
-                query = query.format(pk)
-                cursor.execute(query)
-                query = """Update Passenger SET status='TRUE' where Passenger_ID = '{}';"""
-                query = query.format(passenger_id)
-                cursor.execute(query)
+                # query ="""Delete from booking where Request_Passenger_ID={}"""
+                # query = query.format(passenger_id)
+                # cursor.execute(query)
+                # query = """UPDATE driver SET Current_status = 'TRUE' WHERE (Driver_id = '{}');"""
+                # query = query.format(pk)
+                # cursor.execute(query)
+                # query = """Update Passenger SET status='TRUE' where Passenger_ID = '{}';"""
+                # query = query.format(passenger_id)
+                # cursor.execute(query)
                 tab["status"][0]=='TRUE'
     return render(request,'DBMS/driver_booking_requests.html',context=tab)
 
