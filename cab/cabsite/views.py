@@ -349,8 +349,8 @@ def loginaccess(request):
             cursor.execute(query)
             user_Data = cursor.fetchall()
             print(user_Data)
-            pwd = str(request.POST.get("pwd"))
-            if user_Data[0][1] == pwd:
+            pwd = request.POST.get("pwd")
+            if str(user_Data[0][1]) == pwd:
                 if request.POST.get("category")=='0' and user_Data[0][2]==0:
                             return driver(request)
                 elif request.POST.get("category")=='1' and user_Data[0][2]==1:
