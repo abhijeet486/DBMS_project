@@ -171,7 +171,9 @@ def customer(request):
                 cur.execute(query)
                 data = cur.fetchall()
                 cols = [ col[0] for col in cur.description ]
-                tab = getdf(context,cols,data)
+                tab_data = getdf({},cols,data)
+                for i in tab_data:
+                    tab[i] = tab_data[i]
             print(tab)
         return render(request,'DBMS/customer.html',context=tab)
 
@@ -352,6 +354,7 @@ def loginaccess(request):
             user_Data = cursor.fetchall()
             print(user_Data)
             pwd = str(request.POST.get("pwd"))
+            pwd = request.POST.get("pwd")
             if str(user_Data[0][1]) == pwd:
                 if request.POST.get("category")=='0' and user_Data[0][2]==0:
                             return driver(request)
