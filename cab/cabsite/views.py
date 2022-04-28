@@ -198,7 +198,7 @@ def driver(request):
             tab = getdf(context,cols,data)
             if tab["status"][0]=='TRUE':
                 query = """ Create or Replace view Dashboard as
-                Select b.Pickup_Location,b.Drop_Location,p.Name as RefName,p.Contact_Number as contactno from ( Select Pickup_Location,Drop_Location,Trip_Passenger_ID from trip join user on username=Trip_Driver_ID) as b join passenger p on b.Trip_Passenger_ID = p.Passenger_ID ; """
+                Select b.Pickup_Location,b.Drop_Location,p.Name as RefName,p.Contact_Number as contactno from ( Select Pickup_Location,Drop_Location,Trip_Passenger_ID from trip join user on username=Trip_Driver_ID where Trip_Status='FALSE') as b join passenger p on b.Trip_Passenger_ID = p.Passenger_ID ; """
                 cur.execute(query)
                 print(query)
                 query="""Select * from Dashboard;"""
@@ -308,7 +308,7 @@ def previoustrips(request):
             val = data[0][0]
             ty = data[0][1]
             query = """Create or Replace view PreviousTrips as
-            Select * from Trip join Payment on Trip_Id_Pay=Trip_ID where {}={};"""
+            Select * from Trip join Payment on Trip_Id_Pay=Trip_ID where {}={} and Trip_Status='TRUE';"""
             if ty==0:
                 query = query.format("Trip_Driver_id",pk)
             else:
@@ -321,6 +321,7 @@ def previoustrips(request):
             contex = getdf(contex,cols,data)
             contex["displayname"] = val
             contex["usertype"] = ty
+            contex["username"] = pk
         print(contex)
     return render(request,'DBMS/previoustrips.html',context=contex)
     # trip id, passenger name/driver name, contact no,

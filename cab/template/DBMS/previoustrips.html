@@ -22,13 +22,13 @@
             <i class='bx bx-grid-alt' ></i>
             {% if usertype == 0 %}
             <form action="{% url 'driver'%}" method="post">{% csrf_token %}
-              <input type="hidden" name="username" value = {{Trip_Driver_ID.0}} >
+              <input type="hidden" name="username" value = {{username}} >
               <input type="hidden" name="usertype" value= 0 >
             <span class="links_name"><button type="submit" >Dashboard</button></span>
             </form>
             {% else %}
             <form action="{% url 'customer'%}" method="post">{% csrf_token %}
-              <input type="hidden" name="username" value = {{Trip_Passenger_ID.0}} >
+              <input type="hidden" name="username" value = {{username}} >
               <input type="hidden" name="usertype" value= 1 >
             <span class="links_name"><button type="submit" >Dashboard</button></span>
             </form>
@@ -47,13 +47,13 @@
               {% if usertype == 0 %}
               <span class="links_name"></span>
               <form action="{% url 'editdriver' %}" method="post">{% csrf_token %}
-                <input type="hidden" name="username" value={{Trip_Driver_ID.0}} >
+                <input type="hidden" name="username" value={{username}} >
               <button type="submit" >Edit Details</button>
               </form></span>
               {% else %}
               <span class="links_name">
               <form action="{% url 'editpassenger' %}" method="post">{% csrf_token %}
-                <input type="hidden" name="username" value={{Trip_Passenger_ID.0}} >
+                <input type="hidden" name="username" value={{username}} >
               <button type="submit" >Edit Details</button>
               </form></span>
               {% endif %}
@@ -85,6 +85,7 @@
       <div class="sales-boxes">
         <div class="recent-sales box">
           <div class="title">Previous Trips</div>
+          {% if Trip_Date_Day|length > 0 %}
           <div class="sales-details">
             <ul class="details">
               <li class="topic">Date</li>
@@ -120,6 +121,14 @@
             {% endfor %}
           </ul>
           </div>
+          {% else %}
+          <div class="sales-details">
+          <ul class="details">
+            <li class="topic">No Trip History Available</li>
+            <li><a href="#">Once you complete a ride, history will become available</a></li>
+          </ul>
+          </div>
+          {% endif %}
         </div>
     </div>
   </section>
